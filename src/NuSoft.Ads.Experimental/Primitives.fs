@@ -1,4 +1,5 @@
 ﻿namespace NuSoft.Ads.Experimental
+open FSharp.Data.UnitSystems.SI
 
   #nowarn "0042"
   type BOOL   = bool
@@ -73,21 +74,21 @@
     [<MeasureAnnotatedAbbreviation>] type REAL<[<Measure>] 'Measure>   = REAL 
     [<MeasureAnnotatedAbbreviation>] type LREAL<[<Measure>] 'Measure>  = LREAL
      
-    [<AutoOpen>]
-    module MeasureOperators =
-      let inline retype<'T,'U> (x:'T) : 'U = (# "" x : 'U #)
+  [<AutoOpen>]
+  module MeasureOperators =
+    let inline retype<'T,'U> (x:'T) : 'U = (# "" x : 'U #)
 
-      let inline BYTEWithMeasure   (f : BYTE ) : BYTE<'Measure> = retype f
-      let inline WORDWithMeasure   (f : WORD ) : WORD<'Measure> = retype f
-      let inline DWORDWithMeasure  (f : DWORD) : DWORD<'Measure> = retype f
-      let inline SINTWithMeasure   (f : SINT ) : SINT<'Measure> = retype f
-      let inline USINTWithMeasure  (f : USINT) : USINT<'Measure> = retype f
-      let inline INTWithMeasure    (f : INT  ) : INT<'Measure> = retype f
-      let inline UINTWithMeasure   (f : UINT ) : UINT<'Measure> = retype f
-      let inline DINTWithMeasure   (f : DINT ) : DINT<'Measure> = retype f
-      let inline UDINTWithMeasure  (f : UDINT) : UDINT<'Measure> = retype f
-      let inline LINTWithMeasure   (f : LINT ) : LINT<'Measure> = retype f
-      let inline ULINTWithMeasure  (f : ULINT) : ULINT<'Measure> = retype f
-      let inline REALWithMeasure   (f : REAL ) : REAL<'Measure> = retype f
-      let inline LREALWithMeasure  (f : LREAL) : LREAL<'Measure> = retype f
+    let inline BYTEWithMeasure   (f : BYTE ) : BYTE<'Measure> = retype f
+    let inline WORDWithMeasure   (f : WORD ) : WORD<'Measure> = retype f
+    let inline DWORDWithMeasure  (f : DWORD) : DWORD<'Measure> = retype f
+    let inline SINTWithMeasure   (f : SINT ) : SINT<'Measure> = retype f
+    let inline USINTWithMeasure  (f : USINT) : USINT<'Measure> = retype f
+    let inline INTWithMeasure    (f : INT  ) : INT<'Measure> = retype f
+    let inline UINTWithMeasure   (f : UINT ) : UINT<'Measure> = retype f
+    let inline DINTWithMeasure   (f : DINT ) : DINT<'Measure> = retype f
+    let inline UDINTWithMeasure  (f : UDINT) : UDINT<'Measure> = retype f
+    let inline LINTWithMeasure   (f : LINT ) : LINT<'Measure> = retype f
+    let inline ULINTWithMeasure  (f : ULINT) : ULINT<'Measure> = retype f
+    let inline REALWithMeasure   (f : REAL ) : REAL<'Measure> = retype f
+    let inline LREALWithMeasure  (f : LREAL) : LREAL<'Measure> = retype f
 
