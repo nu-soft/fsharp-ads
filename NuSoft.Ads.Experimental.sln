@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CF6593FB-A8E5-4338-B359-FD2B9870CD11}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C2AAABD8-F044-45CE-8A6B-240D1C9CD603}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tcprojects", "tcprojects", "{6BDC5A3C-B257-46CE-B090-2AE31E534A34}"
+	ProjectSection(SolutionItems) = preProject
+		tcproj\sample\sample.pro = tcproj\sample\sample.pro
+	EndProjectSection
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NuSoft.Ads.Experimental", "src\NuSoft.Ads.Experimental\NuSoft.Ads.Experimental.fsproj", "{B9E0727D-740E-4228-AAAE-277ACD88C03C}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AliasesSample", "samples\AliasesSample\AliasesSample.fsproj", "{1E0D7283-D812-49B8-A88E-FBB2E242A4FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{44885FFF-5D6A-4114-A900-7360CF1842F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9E0727D-740E-4228-AAAE-277ACD88C03C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9E0727D-740E-4228-AAAE-277ACD88C03C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9E0727D-740E-4228-AAAE-277ACD88C03C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9E0727D-740E-4228-AAAE-277ACD88C03C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E0D7283-D812-49B8-A88E-FBB2E242A4FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E0D7283-D812-49B8-A88E-FBB2E242A4FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E0D7283-D812-49B8-A88E-FBB2E242A4FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E0D7283-D812-49B8-A88E-FBB2E242A4FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B9E0727D-740E-4228-AAAE-277ACD88C03C} = {CF6593FB-A8E5-4338-B359-FD2B9870CD11}
+		{1E0D7283-D812-49B8-A88E-FBB2E242A4FF} = {44885FFF-5D6A-4114-A900-7360CF1842F1}
+	EndGlobalSection
+EndGlobal
