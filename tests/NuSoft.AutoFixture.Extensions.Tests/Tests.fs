@@ -1,18 +1,13 @@
-﻿namespace NuSoft.Ads.Experimental.Tests
+﻿namespace NuSoft.Ads.Experimental
 
 #nowarn "9"
 
-module TestTwoWayMarshalling = 
+module Tests = 
   
 
   open Xunit
   open Ploeh.AutoFixture
-  open Ploeh.AutoFixture.Xunit
   open System.Runtime.InteropServices
-  open System.Reflection
-  open System.Diagnostics
-  open System.Reflection.Emit
-  open System
 
   
   [<StructLayout(LayoutKind.Sequential, Pack=1)>]

@@ -80,7 +80,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NuSoft.AutoFixture.Extensions\NuSoft.AutoFixture.Extensions.fsproj">
+    <ProjectReference Include="..\..\tools\NuSoft.AutoFixture.Extensions\NuSoft.AutoFixture.Extensions.fsproj">
       <Name>NuSoft.AutoFixture.Extensions</Name>
       <Project>{3a2810fb-629a-47c6-aac9-dfbff70606d6}</Project>
       <Private>True</Private>
