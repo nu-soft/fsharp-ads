@@ -309,3 +309,19 @@
     /// <param name="LREAL">The input LREAL.</param>
     /// <returns>The LREAL with units-of-measure.</returns>
     val inline LREALWithMeasure  : LREAL -> LREAL<'Measure>
+
+  [<AutoOpen>]
+  module Workarounds =
+
+    [<Struct(*;StructLayout(LayoutKind.Sequential, Pack=1)*)>]
+    type BOOLSTRUCT  = 
+      val value: BOOL
+
+      new : BOOL -> BOOLSTRUCT
+
+      
+    [<CompiledName("ToBool")>]
+    val inline BOOL : BOOL -> BOOLSTRUCT
+    
+    [<CompiledName("FromBool")>]
+    val inline BOOLSTRUCT : BOOLSTRUCT -> BOOL

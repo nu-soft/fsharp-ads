@@ -1,7 +1,7 @@
 ﻿namespace NuSoft.Ads.Experimental
-open FSharp.Data.UnitSystems.SI
 
   #nowarn "0042"
+  #nowarn "9"
   type BOOL   = bool
   type BYTE   = byte
   type WORD   = uint16
@@ -16,6 +16,7 @@ open FSharp.Data.UnitSystems.SI
   type ULINT  = uint64
   type REAL   = float32
   type LREAL  = float
+
 
   [<AutoOpen>]
   module Operators =
@@ -76,7 +77,7 @@ open FSharp.Data.UnitSystems.SI
      
   [<AutoOpen>]
   module MeasureOperators =
-    let inline retype<'T,'U> (x:'T) : 'U = (# "" x : 'U #)
+    let inline retype (x:^T) : ^U = (# "" x : ^U #)
 
     let inline BYTEWithMeasure   (f : BYTE ) : BYTE<'Measure> = retype f
     let inline WORDWithMeasure   (f : WORD ) : WORD<'Measure> = retype f
@@ -91,4 +92,23 @@ open FSharp.Data.UnitSystems.SI
     let inline ULINTWithMeasure  (f : ULINT) : ULINT<'Measure> = retype f
     let inline REALWithMeasure   (f : REAL ) : REAL<'Measure> = retype f
     let inline LREALWithMeasure  (f : LREAL) : LREAL<'Measure> = retype f
+  
 
+  
+  [<AutoOpen>]
+  module Workarounds =
+    open System.Runtime.InteropServices
+    
+    [<Struct;StructLayout(LayoutKind.Sequential, Pack=1)>]
+    type BOOLSTRUCT = 
+      val value: BOOL
+
+      new(value) = {
+        value=value
+      }
+      
+    [<CompiledName("ToBool")>]
+    let inline BOOL (x: BOOL) = new BOOLSTRUCT(x)
+    [<CompiledName("FromBool")>]
+    let inline BOOLSTRUCT (x: BOOLSTRUCT) = x.value
+    
