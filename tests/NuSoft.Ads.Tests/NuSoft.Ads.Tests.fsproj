@@ -1,19 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>3a2810fb-629a-47c6-aac9-dfbff70606d6</ProjectGuid>
+    <ProjectGuid>531c46cd-d290-4ab9-8a91-5728dfe3475d</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>NuSoft.AutoFixture.Extensions</RootNamespace>
-    <AssemblyName>NuSoft.AutoFixture.Extensions</AssemblyName>
+    <RootNamespace>NuSoft.Ads.Tests</RootNamespace>
+    <AssemblyName>NuSoft.Ads.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>NuSoft.AutoFixture.Extensions</Name>
-    <TargetFrameworkProfile />
+    <Name>NuSoft.Ads.Tests</Name>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +25,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\NuSoft.AutoFixture.Extensions.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\NuSoft.Ads.Tests.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,7 +34,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\NuSoft.AutoFixture.Extensions.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\NuSoft.Ads.Tests.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -52,8 +54,8 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Extensions.fsi" />
-    <Compile Include="Extensions.fs" />
+    <Compile Include="Tests.fs" />
+    <None Include="Script.fsx" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -65,9 +67,55 @@
       <HintPath>..\..\packages\AutoFixture.3.41.1\lib\net40\Ploeh.AutoFixture.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ploeh.AutoFixture.Xunit">
+      <HintPath>..\..\packages\AutoFixture.Xunit.3.41.1\lib\net40\Ploeh.AutoFixture.Xunit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="TwinCAT.Ads">
+      <HintPath>..\..\lib\TwinCAT.Ads.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.abstractions">
+      <HintPath>..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.assert">
+      <HintPath>..\..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.core">
+      <HintPath>..\..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.execution.desktop">
+      <HintPath>..\..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.extensions">
+      <HintPath>..\..\packages\xunit.extensions.1.8.0.1549\lib\xunit.extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NuSoft.Ads.Experimental\NuSoft.Ads.Experimental.fsproj">
+      <Name>NuSoft.Ads.Experimental</Name>
+      <Project>{b9e0727d-740e-4228-aaae-277acd88c03c}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\tools\NuSoft.AutoFixture.Extensions\NuSoft.AutoFixture.Extensions.fsproj">
+      <Name>NuSoft.AutoFixture.Extensions</Name>
+      <Project>{3a2810fb-629a-47c6-aac9-dfbff70606d6}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
