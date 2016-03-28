@@ -190,6 +190,35 @@
               | :? AdsErrorException as e -> sprintf "Unknown AdsError %A error while creating handle for %s" e symName |> Error
               | e -> sprintf "Unknown error %A while creating handle for %s" e symName |> Error
           | Error e ->  Error e
+      member self.Bind((symName,value: 'T), f: unit -> AdsResult<TcAdsClient>) =
+        let handle = self.createHandle symName
+          
+        match handle with
+          | Success({Handle = h; Type = t}) ->
+            try
+              match t with
+                | Struct when typedefof<IAdsStruct>.IsAssignableFrom(typedefof<'T>) -> 
+                  failwith "Structs not yet supported"
+                  //let t = handle |> AdsResult.ofSuccess |> self.getInternalType typedefof<'T> 
+                  //storedClient.ReadAny(h,t) :?> 'T |> f
+                | Struct -> 
+                  storedClient.WriteAny(h,value)
+                  () |> f
+                | String length -> 
+                  storedClient.WriteAny(h, value, [| length |]) 
+                  () |> f
+                | StringArray (arrLength,strLength) -> 
+                  storedClient.WriteAny(h, value, [| strLength; arrLength |]) 
+                  () |> f
+                | Array _ -> 
+                  storedClient.WriteAny(h, value) 
+                  () |> f
+                | _ -> 
+                  sprintf "Attempt to read value at %s: %s as DateTime." "" "" |> Error
+            with 
+              | :? AdsErrorException as e -> sprintf "Unknown AdsError %A error while creating handle for %s" e symName |> Error
+              | e -> sprintf "Unknown error %A while creating handle for %s" e symName |> Error
+          | Error e ->  Error e
       
       member self.Bind(symName,f:System.DateTime -> AdsResult<TcAdsClient>) =
         let handle = self.createHandle symName

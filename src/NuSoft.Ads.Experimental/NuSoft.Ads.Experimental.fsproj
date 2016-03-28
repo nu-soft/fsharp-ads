@@ -58,7 +58,7 @@
     <Compile Include="Primitives.fs" />
     <Compile Include="Interfaces.fsi" />
     <Compile Include="Interfaces.fs" />
-    <Compile Include="Extensions.fsi" />
+    <None Include="Extensions.fsi" />
     <Compile Include="Extensions.fs" />
   </ItemGroup>
   <ItemGroup>

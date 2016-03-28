@@ -1,6 +1,8 @@
 ﻿namespace NuSoft.Ads.Experimental.Samples
 open NuSoft.Ads.Experimental
 
+#nowarn "9"
+
 [<Measure>] type h 
 [<Measure>] type ml
 [<Measure>] type A

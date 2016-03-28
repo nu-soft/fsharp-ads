@@ -5,57 +5,14 @@
 open Xunit
 open TwinCAT.Ads
 
-  [<AutoOpen>]
-  module Ext =
-    type TcAdsClient with 
-          member self.ReadDateTime(variableHandle) = 
-            self.ReadAny(variableHandle, typedefof<uint32>) 
-            :?> uint32
-            |> int64 
-            |> TwinCAT.Ads.Internal.PlcOpenDateConverterBase.ToDateTime 
-
-          member self.ReadTimeSpan(variableHandle) = 
-            self.ReadAny(variableHandle, typedefof<uint32>) 
-            :?> uint32
-            |> int64 
-            |> TwinCAT.Ads.Internal.PlcOpenTimeConverter.ToTimeSpan
-
-          member self.WriteAny(variableHandle, value) = 
-            let v = 
-              value 
-              |> TwinCAT.Ads.Internal.PlcOpenDateConverterBase.ToTicks
-              |> uint32
-            self.WriteAny(variableHandle, v) 
-          
-          member self.WriteAny(variableHandle, value) = 
-            let v = 
-              value 
-              |> TwinCAT.Ads.Internal.PlcOpenTimeConverter.ToTicks
-              |> uint32
-            self.WriteAny(variableHandle, v) 
-
-
-
-module AdsDll =
-  open System.Runtime.InteropServices
-
-  [<DllImport("tcadsdll.dll", CharSet=CharSet.None, ExactSpelling=false)>]
-  extern AdsErrorCode AdsSyncReadReq(byte* addr, uint32 indexGroup, uint32 indexOffset, int length, void* data);
-
-  
-  
-  //[<DllImport("tcadsdll.dll", CharSet=CharSet.None, ExactSpelling=false)>]
-  //extern AdsErrorCode AdsSyncReadReqEx2(int port, byte* addr, uint32 indexGroup, uint32 indexOffset, int length, void* data, int* pcbReturn);
-
 
 [<Collection("Tests agains TwinCAT runtime")>]
-module Tests2 = 
+module ReadTests = 
   open Ploeh.AutoFixture
   open NuSoft.Ads.Experimental
   open System
   
   [<Fact>]
-  
   let ``Let test connection fail on unexisting client`` () = 
     let client = twincat {
       let! c = {NetId ="123.156.189.12.1.1"; Port=801 }
@@ -116,8 +73,6 @@ module Tests2 =
     client |> AdsResult.isError |> Assert.True
   
   module Helpers =
-    open System.IO
-    open System.Runtime.InteropServices
 
     let writeOnce<'T when 'T : struct> (client:TcAdsClient) symName (value: 'T) =
       let boolHandle = client.CreateVariableHandle symName
@@ -141,7 +96,6 @@ module Tests2 =
 
       use stream = new AdsStream(4)
       use writer = new AdsBinaryWriter(stream)
-      use reader = new AdsBinaryReader(stream)
 
       writer.WritePlcType value
       client.Write(boolHandle, stream)
@@ -151,7 +105,6 @@ module Tests2 =
 
       use stream = new AdsStream(4)
       use writer = new AdsBinaryWriter(stream)
-      use reader = new AdsBinaryReader(stream)
 
       writer.WritePlcType value
       client.Write(boolHandle, stream)
@@ -161,7 +114,6 @@ module Tests2 =
 
       use stream = new AdsStream(4*size)
       use writer = new AdsBinaryWriter(stream)
-      use reader = new AdsBinaryReader(stream)
 
       value |> Array.iter writer.WritePlcType
       client.Write(boolHandle, stream)
@@ -171,7 +123,6 @@ module Tests2 =
 
       use stream = new AdsStream(4*size)
       use writer = new AdsBinaryWriter(stream)
-      use reader = new AdsBinaryReader(stream)
 
       value |> Array.iter writer.WritePlcType
 
@@ -181,7 +132,6 @@ module Tests2 =
 
   [<Fact>]
   let ``primitive types read`` () = 
-
 
     let fixture = new Fixture()
     //Set ADS in Start
@@ -463,6 +413,8 @@ module Tests2 =
       return c
     }
     client |> AdsResult.isSuccess |> Assert.True
+
+
     
   //[<Fact>]
   //let ``Struct read`` () = 

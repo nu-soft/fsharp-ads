@@ -21,7 +21,9 @@
         match GetCustomAttribute with
           | Some(gcaMi) ->
             let attr = gcaMi.Invoke(null, [| self |])
-            Some(attr :?> MarshalAsAttribute)
+            match attr with
+            | null -> None
+            | _ -> Some(attr :?> MarshalAsAttribute)
           | None -> None
 
 namespace Ploeh.AutoFixture
@@ -71,11 +73,22 @@ namespace Ploeh.AutoFixture
               pi.Member.DeclaringType.GetField(pi.Name+"@", BindingFlags.Instance ||| BindingFlags.NonPublic) 
               |> getString
           
-            | :? FieldInfo as fi when fi.FieldType.IsArray ->
-              fi |> getArray 
+            | :? FieldInfo as fi when fi.FieldType.IsArray -> 
+              let attr = fi.GetMarshalAsAttribute()
+              match attr with
+                | Some(maa) -> 
+                  let result = Array.CreateInstance(fi.FieldType.GetElementType(), maa.SizeConst)
+                  Array.Copy(Array.init maa.SizeConst (fun _ -> context.Resolve(fi.FieldType.GetElementType())), result,maa.SizeConst)
+                  result :> obj
+                | _ -> nospec()
           
             | :? FieldInfo as fi when fi.FieldType = typedefof<string> ->
-              fi |> getString 
+              let attr = fi.GetMarshalAsAttribute()
+              match attr with
+                | Some(maa) when maa.Value = UnmanagedType.ByValTStr && maa.SizeConst > 0 -> 
+                    let result = context.Resolve(typedefof<string>).ToString()
+                    result.Substring(0,Math.Min(result.Length,maa.SizeConst-1)) :> obj
+                | _ -> nospec()
           
             | :? Type as t when 
               t.IsValueType 
