@@ -50,16 +50,9 @@ module AdsDll =
 
 [<Collection("Tests agains TwinCAT runtime")>]
 module Tests2 = 
-  open System.Threading
   open Ploeh.AutoFixture
   open NuSoft.Ads.Experimental
   open System
-  open NuSoft.Ads.Experimental.Samples
-  open System.Runtime.InteropServices
-  open System.Reflection
-  open System.Collections
-  open Microsoft.FSharp.NativeInterop
-  open TwinCAT.Ads.Internal
   
   [<Fact>]
   
@@ -79,7 +72,6 @@ module Tests2 =
     let currState =setupClient.ReadState()
     if currState.AdsState <> AdsState.Run then
       setupClient.WriteControl(new StateInfo(AdsState.Run, currState.DeviceState))
-    //Thread.Sleep(5000) //Give TwinCAT time to change state
 
     let client = twincat {
       let! c = {NetId="192.168.56.2.1.1";Port=801}
@@ -97,7 +89,6 @@ module Tests2 =
     let currState =setupClient.ReadState()
     if currState.AdsState <> AdsState.Stop then
       setupClient.WriteControl(new StateInfo(AdsState.Stop, currState.DeviceState))
-    //Thread.Sleep(5000) //Give TwinCAT time to change state
 
     let client = twincat {
       let! c = {NetId="192.168.56.2.1.1";Port=801}
@@ -473,61 +464,39 @@ module Tests2 =
     }
     client |> AdsResult.isSuccess |> Assert.True
     
-  [<Fact>]
-  let ``Struct read`` () = 
-
-
-    let fixture = new Fixture()
-    MarshalAsTypeBuilder |> fixture.Customizations.Add
-    
-    let setupClient = new TcAdsClient()
-    setupClient.Connect("192.168.56.2.1.1", 801)
-    let currState =setupClient.ReadState()
-    if currState.AdsState <> AdsState.Run then
-      setupClient.WriteControl(new StateInfo(AdsState.Run, currState.DeviceState))
-
-    let dth = setupClient.CreateVariableHandle ".dtVar"
-    let th = setupClient.CreateVariableHandle ".timeVar"
-    let todh = setupClient.CreateVariableHandle ".todVar"
-    let dh = setupClient.CreateVariableHandle ".dateVar"
-    let dt = setupClient.ReadDateTime(dth)
-    let th = setupClient.ReadTimeSpan(th)
-    let tod = setupClient.ReadTimeSpan(todh)
-    let dh = setupClient.ReadDateTime(dh)
-
-    let handle = setupClient.CreateVariableHandle ".st1"
-    
-    
-    let s_internal = fixture.Create<BASIC_STRUCT_INTERNAL>()
-    
-    let mutable stVat = new BASIC_STRUCT()
-    //s_internal.arrboolVar <- stVat.arrboolVar |> Array.map (fun x->new BOOL_WORKAROUND(x))
-    //s_internal.arrstring1Var <- stVat.arrstring1Var |> Array.map (fun x->new STRING_1(x))
-    //s_internal.arrstring80Var <- stVat.arrstring80Var |> Array.map (fun x->new STRING_80(x))
-    //s_internal.arrstring256Var <- stVat.arrstring256Var |> Array.map (fun x->new STRING_256(x))
-    //s_internal.arrdtVar <- stVat.arrdtVar |> Array.map (PlcOpenDateConverterBase.ToTicks >> WORD)
-    //s_internal.arrdateVar <- stVat.arrdateVar |> Array.map (PlcOpenDateConverterBase.ToTicks >> WORD)
-    //s_internal.arrtimeVar <- stVat.arrtimeVar |> Array.map (PlcOpenTimeConverter.ToTicks >> WORD)
-    //s_internal.arrtodVar <- stVat.arrtodVar |> Array.map (PlcOpenTimeConverter.ToTicks >> WORD)
-    //s_internal.dtVar <- stVat.dtVar |> (PlcOpenDateConverterBase.ToTicks >> WORD)
-    //s_internal.dateVar <- stVat.dateVar |> (PlcOpenDateConverterBase.ToTicks >> WORD)
-    //s_internal.timeVar <- stVat.timeVar |>(PlcOpenTimeConverter.ToTicks >> WORD)
-    //s_internal.todVar <- stVat.todVar |> (PlcOpenTimeConverter.ToTicks >> WORD)
-
-    
-    
-    Helpers.writeOnce setupClient ".st1" s_internal
-
-    
-
-    
-    let client = twincat {
-    
-      let! c = {NetId="192.168.56.2.1.1"; Port=801}
-    
-      let! (stAct: BASIC_STRUCT) = ".st1"
-    
-      //Assert.Equal(stVat,stAct)
-      return c
-    }
-    client |> AdsResult.isSuccess |> Assert.True
+  //[<Fact>]
+  //let ``Struct read`` () = 
+  //
+  //
+  //  let fixture = new Fixture()
+  //  MarshalAsTypeBuilder |> fixture.Customizations.Add
+  //  
+  //  let setupClient = new TcAdsClient()
+  //  setupClient.Connect("192.168.56.2.1.1", 801)
+  //  let currState =setupClient.ReadState()
+  //  if currState.AdsState <> AdsState.Run then
+  //    setupClient.WriteControl(new StateInfo(AdsState.Run, currState.DeviceState))
+  //
+  //
+  //  let handle = setupClient.CreateVariableHandle ".st1"
+  //  
+  //  
+  //  let s_internal = fixture.Create<BASIC_STRUCT_INTERNAL>()
+  //  
+  //  let mutable stVat = new BASIC_STRUCT()
+  //
+  //  Helpers.writeOnce setupClient ".st1" s_internal
+  //
+  //  
+  //
+  //  
+  //  let client = twincat {
+  //  
+  //    let! c = {NetId="192.168.56.2.1.1"; Port=801}
+  //  
+  //    let! (stAct: BASIC_STRUCT) = ".st1"
+  //  
+  //    //Assert.Equal(stVat,stAct)
+  //    return c
+  //  }
+  //  client |> AdsResult.isSuccess |> Assert.True

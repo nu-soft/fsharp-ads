@@ -99,6 +99,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\samples\StructSamples\StructSamples.fsproj">
+      <Name>StructSamples</Name>
+      <Project>{ee9a5480-a634-481a-a28f-153dbe6d3767}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\NuSoft.Ads.Experimental\NuSoft.Ads.Experimental.fsproj">
       <Name>NuSoft.Ads.Experimental</Name>
       <Project>{b9e0727d-740e-4228-aaae-277acd88c03c}</Project>
