@@ -177,8 +177,9 @@
             try
               match t with
                 | Struct when typedefof<IAdsStruct>.IsAssignableFrom(typedefof<'T>) -> 
-                  let t = handle |> AdsResult.ofSuccess |> self.getInternalType typedefof<'T> 
-                  storedClient.ReadAny(h,t) :?> 'T |> f
+                  failwith "Structs not yet supported"
+                  //let t = handle |> AdsResult.ofSuccess |> self.getInternalType typedefof<'T> 
+                  //storedClient.ReadAny(h,t) :?> 'T |> f
                 | Struct -> storedClient.ReadAny(h,typedefof<'T>) :?> 'T |> f
                 | String length -> storedClient.ReadAny(h, typedefof<'T>, [| length |]) :?> 'T |> f
                 | StringArray (arrLength,strLength) -> storedClient.ReadAny(h, typedefof<'T>, [| strLength; arrLength |]) :?> 'T |> f
